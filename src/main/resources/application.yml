@@ -10,7 +10,7 @@ spring:
     name: learning
     username: root
     password: 123456
-    url: jdbc:mysql://101.132.167.21:3306/learning?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://101.132.167.21:3306/bookkeeping?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
   redis:
     host: 127.0.0.1
     prot: 6379
