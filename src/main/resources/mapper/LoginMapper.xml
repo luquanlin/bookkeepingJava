@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luquanlin.learning.mapper.LoginMapper">
+    <!--查询登陆是否有用户-->
+    <select id="selectUserLogin" resultType="com.luquanlin.learning.entity.User">
+        select * from user u
+            left join userrole ur on ur.user_id=u.user_id
+            left join role r on r.role_id=ur.role_id
+        where user_account=#{user_account} and user_password=#{user_password}
+    </select>
+
+    <!--查询所有用户-->
+    <select id="selectAllUser" resultType="com.luquanlin.learning.entity.User">
+        select * from user
+    </select>
+
+    <!--用户注册-->
+    <insert id="insertUser" parameterType="com.luquanlin.learning.entity.User">
+        insert into user(user_name,user_account,user_password,user_sex)
+        values (#{user_name},#{user_account},#{user_password},#{user_sex})
+    </insert>
+
+    <!--查询用户账号是否已存在-->
+    <select id="selectUserAccount" resultType="com.luquanlin.learning.entity.User">
+        select * from user where user_account=#{user_account}
+    </select>
+</mapper>
