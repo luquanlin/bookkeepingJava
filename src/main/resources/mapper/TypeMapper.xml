@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luquanlin.learning.mapper.TypeMapper">
+    <!--查询所有类别-->
+    <select id="selectAllType" resultType="com.luquanlin.learning.entity.Type">
+        select *
+        from type
+        WHERE type_state = 1
+    </select>
+
+    <!--模糊查询-->
+    <select id="selectVagueType" resultType="com.luquanlin.learning.entity.Type">
+        select *
+        from type
+        where concat(type_name, type_mark) LIKE CONCAT('%${type_name}%', '%${type_mark}%') and type_state = 1
+    </select>
+
+    <!--删除类别-->
+    <update id="updateTypeState">
+        update type
+        set type_state="0"
+        where type_id = #{type_id}
+    </update>
+
+    <!--添加类别-->
+    <insert id="insertType">
+        insert INTO type(type_name, type_mark)
+        values (#{type_name}, #{type_mark})
+    </insert>
+
+    <!--编辑类别-->
+    <update id="updateType">
+        update type
+        set type_name = #{type_name},type_mark = #{type_mark}
+        where type_id = #{type_id}
+    </update>
+</mapper>
