@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luquanlin.learning.mapper.BillMapper">
+    <!--查询所有账单-->
+    <select id="selectAllBill" resultType="HashMap">
+        select b.bill_id, b.user_id, b.bill_name, bill_date, u.user_name
+        from bill b
+                 inner join user u on u.user_id = b.user_id
+        where b.bill_state = 1
+    </select>
+
+    <!--模糊查询-->
+    <select id="selectVagueBill" resultType="HashMap">
+        select b.bill_id, b.user_id, b.bill_name, bill_date, u.user_name
+        from bill b
+                 inner join user u on u.user_id = b.user_id
+        where concat(b.bill_name, u.user_name) LIKE CONCAT('%${bill_name}%', '%${user_name}%')
+          and b.bill_state = 1
+
+    </select>
+</mapper>
