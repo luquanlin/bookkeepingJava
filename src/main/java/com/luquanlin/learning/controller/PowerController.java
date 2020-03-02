@@ -32,87 +32,88 @@ public class PowerController {
 
     @ResponseBody
     @RequestMapping("/selectUserPower")
-    @ApiOperation(value="登录用户的所有权限", notes="直接返回数据",httpMethod = "POST")
-    public Map selectUserPower(HttpServletRequest request){
+    @ApiOperation(value = "登录用户的所有权限", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectUserPower(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        List<User> user =(List<User>) session.getAttribute("user");
-        Map result = new HashMap();
+        List<User> user = (List<User>) session.getAttribute("user");
         int user_id = user.get(0).getUser_id();
-        List<Map<String, Object>>  powers = powerService.selectUserPower(user_id);
-        result.put("data",powers);
+
+        Map result = new HashMap();
+        List<Map<String, Object>> powers = powerService.selectUserPower(user_id);
+        result.put("data", powers);
         return result;
     }
 
     @ResponseBody
     @RequestMapping("/selectAllPower")
-    @ApiOperation(value="所有权限", notes="直接返回数据",httpMethod = "POST")
-    public Map selectAllPower(){
+    @ApiOperation(value = "所有权限", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectAllPower() {
         Map result = new HashMap();
         List<Map<String, Object>> powers = powerService.selectAllPower();
-        result.put("data",powers);
+        result.put("data", powers);
         return result;
     }
 
     @ResponseBody
     @RequestMapping("/selectAllPowers")
-    @ApiOperation(value="所有权限(非树形)", notes="直接返回数据",httpMethod = "POST")
-    public Map selectAllPowers(){
+    @ApiOperation(value = "所有权限(非树形)", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectAllPowers() {
         Map result = new HashMap();
         List<Power> powers = powerService.selectAllPowers();
-        result.put("data",powers);
+        result.put("data", powers);
         return result;
     }
 
     @RequestMapping("/updateRoleInformation")
     @ResponseBody
-    @ApiOperation(value = "修改权限信息",notes = "1:成功,0:失败",httpMethod = "POST")
+    @ApiOperation(value = "修改权限信息", notes = "1:成功,0:失败", httpMethod = "POST")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType="query",name = "power_name" ,value = "权限名称",required = true,dataType = "string"),
-            @ApiImplicitParam(paramType="query",name = "power_parentid" ,value = "权限父ID",required = true,dataType = "string"),
-            @ApiImplicitParam(paramType="query",name = "power_url" ,value = "权限地址",required = true,dataType = "string"),
-            @ApiImplicitParam(paramType="query",name = "describe" ,value = "权限描述",required = true,dataType = "string"),
-            @ApiImplicitParam(paramType="query",name = "power_id" ,value = "权限id",required = true,dataType = "int"),
+            @ApiImplicitParam(paramType = "query", name = "power_name", value = "权限名称", required = true, dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "power_parentid", value = "权限父ID", required = true, dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "power_url", value = "权限地址", required = true, dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "describe", value = "权限描述", required = true, dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "power_id", value = "权限id", required = true, dataType = "int"),
 
     })
-    public Map updateRoleInformation(String power_name, String power_parentid, String power_url, String describe, int power_id){
+    public Map updateRoleInformation(String power_name, String power_parentid, String power_url, String describe, int power_id) {
         Map result = new HashMap();
-        if(powerService.updateRoleInformation(power_name, power_parentid, power_url, describe, power_id)){
-            result.put("data",1);
-        }else{
-            result.put("data",0);
+        if (powerService.updateRoleInformation(power_name, power_parentid, power_url, describe, power_id)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
         }
         return result;
     }
 
     @RequestMapping("/insertPowerInformation")
     @ResponseBody
-    @ApiOperation(value = "插入权限信息",notes = "1:成功,0:失败",httpMethod = "POST")
+    @ApiOperation(value = "插入权限信息", notes = "1:成功,0:失败", httpMethod = "POST")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType="query",name = "power_name" ,value = "权限名称",required = true,dataType = "string"),
-            @ApiImplicitParam(paramType="query",name = "power_parentid" ,value = "权限父ID",required = true,dataType = "string"),
-            @ApiImplicitParam(paramType="query",name = "power_url" ,value = "权限地址",required = true,dataType = "string"),
-            @ApiImplicitParam(paramType="query",name = "describe" ,value = "权限描述",required = true,dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "power_name", value = "权限名称", required = true, dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "power_parentid", value = "权限父ID", required = true, dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "power_url", value = "权限地址", required = true, dataType = "string"),
+            @ApiImplicitParam(paramType = "query", name = "describe", value = "权限描述", required = true, dataType = "string"),
     })
-    public Map insertPowerInformation(String power_name,String power_parentid,String power_url,String describe){
+    public Map insertPowerInformation(String power_name, String power_parentid, String power_url, String describe) {
         Map result = new HashMap();
-        if(powerService.insertPowerInformation(power_name, power_parentid, power_url, describe)){
-            result.put("data",1);
-        }else{
-            result.put("data",0);
+        if (powerService.insertPowerInformation(power_name, power_parentid, power_url, describe)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
         }
         return result;
     }
 
     @RequestMapping("/updatePowerState")
     @ResponseBody
-    @ApiOperation(value = "删除权限",notes = "1:成功,0:失败",httpMethod = "POST")
-    @ApiImplicitParam(paramType="query",name = "power_id" ,value = "权限名称",required = true,dataType = "int")
-    public Map updatePowerState(int power_id){
+    @ApiOperation(value = "删除权限", notes = "1:成功,0:失败", httpMethod = "POST")
+    @ApiImplicitParam(paramType = "query", name = "power_id", value = "权限名称", required = true, dataType = "int")
+    public Map updatePowerState(int power_id) {
         Map result = new HashMap();
-        if(powerService.updatePowerState(power_id)){
-            result.put("data",1);
-        }else{
-            result.put("data",0);
+        if (powerService.updatePowerState(power_id)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
         }
         return result;
     }

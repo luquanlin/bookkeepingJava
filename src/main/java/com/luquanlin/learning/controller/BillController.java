@@ -37,10 +37,127 @@ public class BillController {
     @RequestMapping("/selectVagueBill")
     @ResponseBody
     @ApiOperation(value = "模糊查询账单信息", notes = "直接返回数据", httpMethod = "POST")
-    public Map selectVagueBill(String bill_name, String user_name){
+    public Map selectVagueBill(String bill_name, String user_name) {
         Map result = new HashMap();
         List<HashMap> bills = billService.selectVagueBill(bill_name, user_name);
         result.put("data", bills);
+        return result;
+    }
+
+    @RequestMapping("/selectBillDetail")
+    @ResponseBody
+    @ApiOperation(value = "查询账单详情信息", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectBillDetail(int bill_id) {
+        Map result = new HashMap();
+        List<HashMap> bills = billService.selectBillDetail(bill_id);
+        result.put("data", bills);
+        return result;
+    }
+
+    @RequestMapping("/selectVagueBillDetail")
+    @ResponseBody
+    @ApiOperation(value = "模糊查询账单详情信息", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectVagueBillDetail(int bill_id, String user_name) {
+        Map result = new HashMap();
+        List<HashMap> bills = billService.selectVagueBillDetail(bill_id, user_name);
+        result.put("data", bills);
+        return result;
+    }
+
+    @RequestMapping("/selectBillsTable")
+    @ResponseBody
+    @ApiOperation(value = "查询账单列表", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectBillsTable(int user_id) {
+        Map result = new HashMap();
+        List<HashMap> bills = billService.selectBillsTable(user_id);
+        result.put("data", bills);
+        return result;
+    }
+
+    @RequestMapping("/insertBill")
+    @ResponseBody
+    @ApiOperation(value = "添加账单", notes = "1：成功，0：失败", httpMethod = "POST")
+    public Map insertBill(int user_id, String bill_name, String bill_date) {
+        Map result = new HashMap();
+        if (billService.insertBill(user_id, bill_name, bill_date)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
+
+    @RequestMapping("/selectAllBdetail")
+    @ResponseBody
+    @ApiOperation(value = "查询前端用户账单详情", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectAllBdetail(int bill_id) {
+        Map result = new HashMap();
+        List<HashMap> bills = billService.selectAllBdetail(bill_id);
+        result.put("data", bills);
+        return result;
+    }
+
+    @RequestMapping("/selectBillAllPeople")
+    @ResponseBody
+    @ApiOperation(value = "查询账单的人数", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectBillAllPeople(int bill_id) {
+        Map result = new HashMap();
+        List<HashMap> bills = billService.sselectBillAllPeople(bill_id);
+        result.put("data", bills);
+        return result;
+    }
+
+    @RequestMapping("/selectOtherBills")
+    @ResponseBody
+    @ApiOperation(value = "查询他人的账单", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectOtherBills(int buuser_id, int buser_id) {
+        Map result = new HashMap();
+        List<HashMap> bills = billService.selectOtherBills(buuser_id, buser_id);
+        result.put("data", bills);
+        return result;
+    }
+
+    @RequestMapping("/selectMyBills")
+    @ResponseBody
+    @ApiOperation(value = "查询自己的账单", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectMyBills(int buuser_id, int buser_id) {
+        Map result = new HashMap();
+        List<HashMap> bills = billService.selectMyBills(buuser_id, buser_id);
+        result.put("data", bills);
+        return result;
+    }
+
+    @RequestMapping("/selectAddBill")
+    @ResponseBody
+    @ApiOperation(value = "查询已结算的账单", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectAddBill(int user_id) {
+        Map result = new HashMap();
+        List<HashMap> bills = billService.selectAddBill(user_id);
+        result.put("data", bills);
+        return result;
+    }
+
+    @RequestMapping("/insertBillPeople")
+    @ResponseBody
+    @ApiOperation(value = "邀请人加入账单", notes = "1成功，0失败", httpMethod = "POST")
+    public Map insertBillPeople(int bill_id, int user_id, String buser_time) {
+        Map result = new HashMap();
+        if (billService.insertBillPeople(bill_id, user_id, buser_time)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
+
+
+    @RequestMapping("/sqlQuery")
+    @ResponseBody
+    @ApiOperation(value = "通用查询", notes = "直接返回数据", httpMethod = "POST")
+    public Map sqlQuery(String sql) {
+        Map result = new HashMap();
+        List<HashMap> sqlQuery = billService.sqlQuery(sql);
+        result.put("data", sqlQuery);
         return result;
     }
 

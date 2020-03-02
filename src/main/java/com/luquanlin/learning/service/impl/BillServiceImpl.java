@@ -27,4 +27,68 @@ public class BillServiceImpl implements BillService {
     public List<HashMap> selectVagueBill(String bill_name, String user_name) {
         return billMapper.selectVagueBill(bill_name, user_name);
     }
+
+    @Override
+    public List<HashMap> selectBillDetail(int bill_id) {
+        return billMapper.selectBillDetail(bill_id);
+    }
+
+    @Override
+    public List<HashMap> selectVagueBillDetail(int bill_id, String user_name) {
+        return billMapper.selectVagueBillDetail(bill_id, user_name);
+    }
+
+    @Override
+    public List<HashMap> selectBillsTable(int user_id) {
+        return billMapper.selectBillsTable(user_id);
+    }
+
+    @Override
+    public boolean insertBill(int user_id, String bill_name, String bill_date) {
+        int result = billMapper.insertBill(user_id, bill_name, bill_date);
+        if (result > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    public List<HashMap> selectAllBdetail(int bill_id) {
+        return billMapper.selectAllBdetail(bill_id);
+    }
+
+    @Override
+    public List<HashMap> sselectBillAllPeople(int bill_id) {
+        return billMapper.sselectBillAllPeople(bill_id);
+    }
+
+    @Override
+    public List<HashMap> selectOtherBills(int buuser_id, int buser_id) {
+        return billMapper.selectOtherBills(buuser_id, buser_id);
+    }
+
+    @Override
+    public List<HashMap> selectMyBills(int buuser_id, int buser_id) {
+        return billMapper.selectMyBills(buuser_id, buser_id);
+    }
+
+    @Override
+    public List<HashMap> selectAddBill(int user_id) {
+        return billMapper.selectAddBill(user_id);
+    }
+
+    @Override
+    public boolean insertBillPeople(int bill_id, int user_id, String buser_time) {
+        int result = billMapper.insertBillPeople(bill_id, user_id, buser_time);
+        if (result > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<HashMap> sqlQuery(String sql) {
+        return billMapper.sqlQuery(sql);
+    }
 }

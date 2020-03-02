@@ -103,4 +103,14 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
+    @Override
+    public List<HashMap> selectVagueAccountUser(String user_account) {
+        return userMapper.selectVagueAccountUser(user_account);
+    }
+
+    @Override
+    public List<HashMap> selectAccountUser(String user_account) {
+        return userMapper.selectAccountUser(user_account);
+    }
 }

@@ -18,6 +18,111 @@
                  inner join user u on u.user_id = b.user_id
         where concat(b.bill_name, u.user_name) LIKE CONCAT('%${bill_name}%', '%${user_name}%')
           and b.bill_state = 1
+    </select>
 
+    <!--查询后台账单详情 -->
+    <select id="selectBillDetail" resultType="HashMap">
+        select u.user_name, u.user_sex, bu.buser_time, bu.buser_if, bu.buser_id, b.*
+        from bill b
+                 inner JOIN buser bu on bu.bill_id = b.bill_id
+                 inner join user u on u.user_id = bu.user_id
+        where b.bill_id = #{bill_id}
+          and (bu.buser_if = 1 or bu.buser_if = 3)
+    </select>
+
+    <!--模糊查询账单详情 -->
+    <select id="selectVagueBillDetail" resultType="HashMap">
+        select u.user_name, u.user_sex, bu.buser_time, bu.buser_if, bu.buser_id, b.*
+        from bill b
+                 inner JOIN buser bu on bu.bill_id = b.bill_id
+                 inner join user u on u.user_id = bu.user_id
+        where b.bill_id = #{bill_id}
+          and u.user_name like '%${user_name}%'
+          and (bu.buser_if = 1 or bu.buser_if = 3)
+    </select>
+
+    <!--查询账单列表-->
+    <select id="selectBillsTable" resultType="HashMap">
+        select b.*, u.user_name
+        from buser bu
+                 inner join bill b on b.bill_id = bu.bill_id
+                 inner join user u on u.user_id = b.user_id
+        where bu.user_id = #{user_id}
+          and b.bill_state = 1
+    </select>
+
+    <!--创建账单-->
+    <insert id="insertBill">
+        insert bill(user_id, bill_name, bill_date)
+        values (#{user_id}, #{bill_name}, #{bill_date})
+    </insert>
+
+    <!--查询前端用户账单详情-->
+    <select id="selectAllBdetail" resultType="HashMap">
+        select b.*,
+               bd.type_id,
+               bd.bdetail_remarks,
+               bd.bdetail_money,
+               bd.bdetail_date,
+               t.type_mark,
+               t.type_name
+        from bill b
+                 inner join buser bu on bu.bill_id = b.bill_id
+                 inner join bdetail bd on bd.bill_id = bu.bill_id and bd.user_id = bu.user_id
+                 inner join type t on t.type_id = bd.type_id
+        where bu.bill_id = #{bill_id}
+    </select>
+
+    <!--查询账单的人数-->
+    <select id="selectBillAllPeople" resultType="HashMap">
+        select b.user_id as found_id, b.bill_name, u.user_id, u.user_name, u.user_account, bu.buser_time, bu.buser_if
+        from buser bu
+                 inner join bill b on b.bill_id = bu.bill_id
+                 inner JOIN user u on u.user_id = bu.user_id
+        where bu.bill_id = #{bill_id}
+    </select>
+
+    <!--查询他人账单-->
+    <select id="selectOtherBills" resultType="HashMap">
+        select b.*, u.user_name
+        from buser bu
+                 inner join bill b on b.bill_id = bu.bill_id
+                 inner join user u on u.user_id = b.user_id
+        where bu.user_id = #{buuser_id}
+          and b.user_id != #{buser_id}
+          and b.bill_state = 1
+    </select>
+
+    <!--查询自己的账单-->
+    <select id="selectMyBills" resultType="HashMap">
+        select b.*, u.user_name
+        from buser bu
+                 inner join bill b on b.bill_id = bu.bill_id
+                 inner join user u on u.user_id = b.user_id
+        where bu.user_id = #{buuser_id}
+          and b.user_id = #{buser_id}
+          and b.bill_state = 1
+    </select>
+
+    <!--查询已结算的账单-->
+    <select id="selectAddBill" resultType="HashMap">
+        select b.*, u.user_name
+        from buser bu
+                 inner join bill b on b.bill_id = bu.bill_id
+                 inner join user u on u.user_id = b.user_id
+        where bu.user_id = #{user_id}
+          and b.bill_add = 1
+          and b.bill_state = 1
+    </select>
+
+    <!--邀请人加入账单-->
+    <insert id="insertBillPeople">
+        insert buser(bill_id, user_id, buser_time)
+        values (#{bill_id}, #{user_id}, #{buser_time})
+    </insert>
+
+    <!--通用查询-->
+    <select id="sqlQuery" resultType="HashMap">
+        select #{sql}
     </select>
 </mapper>

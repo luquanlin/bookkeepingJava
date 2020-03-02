@@ -30,4 +30,8 @@ public interface UserService {
     List<User> selectUserMaxId();
 
     boolean insertUserRolesId(int user_id, int role_id);
+
+    List<HashMap> selectVagueAccountUser(String user_account);
+
+    List<HashMap> selectAccountUser(String user_account);
 }
