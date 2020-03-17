@@ -49,6 +49,7 @@
                  inner join user u on u.user_id = b.user_id
         where bu.user_id = #{user_id}
           and b.bill_state = 1
+          and bu.buser_if = 1
     </select>
 
     <!--创建账单-->
@@ -65,21 +66,32 @@
                bd.bdetail_money,
                bd.bdetail_date,
                t.type_mark,
-               t.type_name
+               t.type_name,
+               u.user_id as uuid,
+               u.user_name
         from bill b
                  inner join buser bu on bu.bill_id = b.bill_id
                  inner join bdetail bd on bd.bill_id = bu.bill_id and bd.user_id = bu.user_id
                  inner join type t on t.type_id = bd.type_id
+                 inner join user u on u.user_id = bd.user_id
         where bu.bill_id = #{bill_id}
     </select>
 
     <!--查询账单的人数-->
     <select id="selectBillAllPeople" resultType="HashMap">
-        select b.user_id as found_id, b.bill_name, u.user_id, u.user_name, u.user_account, bu.buser_time, bu.buser_if
+        select bu.buser_id,
+               b.user_id as found_id,
+               b.bill_name,
+               u.user_id,
+               u.user_name,
+               u.user_account,
+               bu.buser_time,
+               bu.buser_if
         from buser bu
                  inner join bill b on b.bill_id = bu.bill_id
                  inner JOIN user u on u.user_id = bu.user_id
         where bu.bill_id = #{bill_id}
+          and bu.buser_if != 3
     </select>
 
     <!--查询他人账单-->
@@ -91,6 +103,7 @@
         where bu.user_id = #{buuser_id}
           and b.user_id != #{buser_id}
           and b.bill_state = 1
+          and bu.buser_if = 1
     </select>
 
     <!--查询自己的账单-->
@@ -121,8 +134,58 @@
         values (#{bill_id}, #{user_id}, #{buser_time})
     </insert>
 
+    <!--查询账单最大id-->
+    <select id="selectMaxBillId" resultType="HashMap">
+        select max(bill_id) as bill_id
+        from bill
+    </select>
+
+    <!--自己加入账单-->
+    <insert id="insertMineBill">
+        insert buser(bill_id, user_id, buser_time, buser_if)
+        values (#{bill_id}, #{user_id}, #{buser_time}, '1')
+    </insert>
+
+    <!--删除账单-->
+    <update id="deleteBill">
+        UPDATE bill
+        set bill_state=0
+        where bill_id = #{bill_id}
+    </update>
+
+    <!--删除联系人-->
+    <update id="updateBillPeople">
+        update buser
+        set buser_if=3
+        where buser_id = #{buser_id}
+    </update>
+
     <!--通用查询-->
     <select id="sqlQuery" resultType="HashMap">
         select #{sql}
     </select>
+
+    <!--查看邀请自己进入账单信息-->
+    <select id="billUserIfZero" resultType="HashMap">
+        select bu.*, b.bill_name
+        from buser bu
+                 inner join bill b on b.bill_id = bu.bill_id
+        where bu.user_id = #{user_id}
+          and bu.buser_if = 0
+    </select>
+
+    <!--同意账单邀请-->
+    <update id="updateBillUserIfOne">
+        update buser
+        SET buser_if=1
+        where buser_id = #{buser_id}
+    </update>
+
+    <!--拒绝账单邀请-->
+    <update id="updateBillUserIfTwo">
+        update buser
+        SET buser_if=2
+        where buser_id = #{buser_id}
+    </update>
+
 </mapper>

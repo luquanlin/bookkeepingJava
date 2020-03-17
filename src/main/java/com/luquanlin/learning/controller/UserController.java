@@ -159,4 +159,41 @@ public class UserController {
         result.put("data", user);
         return result;
     }
+
+    @RequestMapping("/selectOneInformation")
+    @ResponseBody
+    @ApiOperation(value = "小程序根据id查询用户信息", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectOneInformation(int user_id) {
+        Map result = new HashMap();
+        List<HashMap> user = userService.selectOneInformation(user_id);
+        result.put("data", user);
+        return result;
+    }
+
+    @RequestMapping("/updateOnePassword")
+    @ResponseBody
+    @ApiOperation(value = "小程序修改用户密码", notes = "1:成功，0:失败", httpMethod = "POST")
+    public Map updateOnePassword(String user_password, int user_id) {
+        Map result = new HashMap();
+        if (userService.updateOnePassword(user_password, user_id)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
+
+
+    @RequestMapping("/updateOneInformation")
+    @ResponseBody
+    @ApiOperation(value = "小程序修改用户信息", notes = "1:成功，0:失败", httpMethod = "POST")
+    public Map updateOneInformation(String user_name, String user_account, String user_sex, int user_id) {
+        Map result = new HashMap();
+        if (userService.updateUserInformation(user_name, user_account, user_sex, user_id)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
 }

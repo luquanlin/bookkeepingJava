@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateUserPassword(int user_id) {
         int result = userMapper.updateUserPassword(user_id);
-        if(result > 0){
+        if (result > 0) {
             return true;
         }
         return false;
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updataUserState(int user_id) {
         int result = userMapper.updataUserState(user_id);
-        if(result > 0){
+        if (result > 0) {
             return true;
         }
         return false;
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     public List selectUserIdRole(int user_id) {
         List<UserRole> userRoles = userMapper.selectUserIdRole(user_id);
         List roles = new ArrayList();
-        for(int i=0;i<userRoles.size();i++){
+        for (int i = 0; i < userRoles.size(); i++) {
             roles.add(userRoles.get(i).getRole_id());
         }
         return roles;
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateUserInformation(String user_name, String user_account, String user_sex, int user_id) {
         int result = userMapper.updateUserInformation(user_name, user_account, user_sex, user_id);
-        if(result > 0){
+        if (result > 0) {
             return true;
         }
         return false;
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean deleteUserRoles(int user_id) {
         int result = userMapper.deleteUserRoles(user_id);
-        if(result > 0){
+        if (result > 0) {
             return true;
         }
         return false;
@@ -74,8 +74,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean insertUserRoles(int user_id, int role_id) {
-        int result = userMapper.insertUserRoles(user_id,role_id);
-        if(result > 0){
+        int result = userMapper.insertUserRoles(user_id, role_id);
+        if (result > 0) {
             return true;
         }
         return false;
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean insertUserInformation(String user_name, String user_account, String user_sex) {
         int result = userMapper.insertUserInformation(user_name, user_account, user_sex);
-        if(result > 0){
+        if (result > 0) {
             return true;
         }
         return false;
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean insertUserRolesId(int user_id, int role_id) {
         int result = userMapper.insertUserRolesId(user_id, role_id);
-        if(result > 0){
+        if (result > 0) {
             return true;
         }
         return false;
@@ -112,5 +112,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<HashMap> selectAccountUser(String user_account) {
         return userMapper.selectAccountUser(user_account);
+    }
+
+    @Override
+    public List<HashMap> selectOneInformation(int user_id) {
+        return userMapper.selectOneInformation(user_id);
+    }
+
+    @Override
+    public boolean updateOnePassword(String user_password, int user_id) {
+        int result = userMapper.updateOnePassword(user_password, user_id);
+        if (result > 0) {
+            return true;
+        }
+        return false;
     }
 }

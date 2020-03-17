@@ -59,8 +59,8 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public List<HashMap> sselectBillAllPeople(int bill_id) {
-        return billMapper.sselectBillAllPeople(bill_id);
+    public List<HashMap> selectBillAllPeople(int bill_id) {
+        return billMapper.selectBillAllPeople(bill_id);
     }
 
     @Override
@@ -88,7 +88,62 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
+    public List<HashMap> selectMaxBillId() {
+        return billMapper.selectMaxBillId();
+    }
+
+    @Override
+    public boolean insertMineBill(int bill_id, int user_id, String buser_time) {
+        int result = billMapper.insertMineBill(bill_id, user_id, buser_time);
+        if (result > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteBill(int bill_id) {
+        int result = billMapper.deleteBill(bill_id);
+        if (result > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateBillPeople(int buser_id) {
+        int result = billMapper.updateBillPeople(buser_id);
+        if (result > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<HashMap> billUserIfZero(int user_id) {
+        return billMapper.billUserIfZero(user_id);
+    }
+
+    @Override
     public List<HashMap> sqlQuery(String sql) {
         return billMapper.sqlQuery(sql);
+    }
+
+    @Override
+    public boolean updateBillUserIfOne(int buser_id) {
+        int result = billMapper.updateBillUserIfOne(buser_id);
+        if (result > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateBillUserIfTwo(int buser_id) {
+        int result = billMapper.updateBillUserIfTwo(buser_id);
+        if (result > 0) {
+            return true;
+        }
+        return false;
     }
 }

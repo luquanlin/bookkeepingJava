@@ -90,4 +90,21 @@
         where u.user_account = #{user_account}
           and ur.role_id != 1
     </select>
+
+    <!--小程序根据id查询用户信息-->
+    <select id="selectOneInformation" resultType="HashMap">
+        select *
+        from user u
+        WHERE u.user_id = #{user_id}
+    </select>
+
+    <!--小程序修改用户密码-->
+    <update id="updateOnePassword">
+        update user
+        set user_password=#{user_password}
+        where user_id = #{user_id}
+    </update>
+
+
+
 </mapper>

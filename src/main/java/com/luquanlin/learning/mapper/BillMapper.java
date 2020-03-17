@@ -26,7 +26,7 @@ public interface BillMapper {
 
     List<HashMap> selectAllBdetail(int bill_id);
 
-    List<HashMap> sselectBillAllPeople(int bill_id);
+    List<HashMap> selectBillAllPeople(int bill_id);
 
     List<HashMap> selectOtherBills(int buuser_id, int buser_id);
 
@@ -38,4 +38,19 @@ public interface BillMapper {
     int insertBill(int user_id, String bill_name, String bill_date);
 
     int insertBillPeople(int bill_id, int user_id, String buser_time);
+
+    List<HashMap> selectMaxBillId();
+
+    int insertMineBill(int bill_id, int user_id, String buser_time);
+
+    int deleteBill(int bill_id);
+
+    int updateBillPeople(int buser_id);
+
+    List<HashMap> billUserIfZero(int user_id);
+
+    int updateBillUserIfOne(int buser_id);
+
+    int updateBillUserIfTwo(int buser_id);
+
 }

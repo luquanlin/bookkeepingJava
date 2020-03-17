@@ -38,4 +38,8 @@ public interface UserMapper {
 
     List<HashMap> selectAccountUser(String user_account);
 
+    List<HashMap> selectOneInformation(int user_id);
+
+    int updateOnePassword(String user_password, int user_id);
+
 }

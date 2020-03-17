@@ -80,6 +80,8 @@ public class BillController {
     public Map insertBill(int user_id, String bill_name, String bill_date) {
         Map result = new HashMap();
         if (billService.insertBill(user_id, bill_name, bill_date)) {
+            List<HashMap> bill = billService.selectMaxBillId();
+            result.put("bill_id", bill);
             result.put("data", 1);
         } else {
             result.put("data", 0);
@@ -102,7 +104,7 @@ public class BillController {
     @ApiOperation(value = "查询账单的人数", notes = "直接返回数据", httpMethod = "POST")
     public Map selectBillAllPeople(int bill_id) {
         Map result = new HashMap();
-        List<HashMap> bills = billService.sselectBillAllPeople(bill_id);
+        List<HashMap> bills = billService.selectBillAllPeople(bill_id);
         result.put("data", bills);
         return result;
     }
@@ -150,6 +152,47 @@ public class BillController {
         return result;
     }
 
+    @RequestMapping("/insertMineBill")
+    @ResponseBody
+    @ApiOperation(value = "自己加入账单", notes = "1成功，0失败", httpMethod = "POST")
+    public Map insertMineBill(int bill_id, int user_id, String buser_time) {
+        Map result = new HashMap();
+        if (billService.insertMineBill(bill_id, user_id, buser_time)) {
+
+            result.put("data", 1);
+
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
+
+    @RequestMapping("/deleteBill")
+    @ResponseBody
+    @ApiOperation(value = "删除账单", notes = "1成功，0失败", httpMethod = "POST")
+    public Map deleteBill(int bill_id) {
+        Map result = new HashMap();
+        if (billService.deleteBill(bill_id)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
+
+    @RequestMapping("/updateBillPeople")
+    @ResponseBody
+    @ApiOperation(value = "删除账单的人", notes = "1成功，0失败", httpMethod = "POST")
+    public Map updateBillPeople(int buser_id) {
+        Map result = new HashMap();
+        if (billService.updateBillPeople(buser_id)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
+
 
     @RequestMapping("/sqlQuery")
     @ResponseBody
@@ -161,5 +204,41 @@ public class BillController {
         return result;
     }
 
+    @RequestMapping("/billUserIfZero")
+    @ResponseBody
+    @ApiOperation(value = "查询账单邀请信息", notes = "直接返回数据", httpMethod = "POST")
+    public Map billUserIfZero(int user_id) {
+        Map result = new HashMap();
+        List<HashMap> billUser = billService.billUserIfZero(user_id);
+        result.put("data", billUser);
+        return result;
+    }
+
+    @RequestMapping("/updateBillUserIfOne")
+    @ResponseBody
+    @ApiOperation(value = "同意账单的邀请", notes = "1成功，0失败", httpMethod = "POST")
+    public Map updateBillUserIfOne(int buser_id) {
+        Map result = new HashMap();
+        if (billService.updateBillUserIfOne(buser_id)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
+
+
+    @RequestMapping("/updateBillUserIfTwo")
+    @ResponseBody
+    @ApiOperation(value = "拒绝账单的邀请", notes = "1成功，0失败", httpMethod = "POST")
+    public Map updateBillUserIfTwo(int buser_id) {
+        Map result = new HashMap();
+        if (billService.updateBillUserIfTwo(buser_id)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
 
 }

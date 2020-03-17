@@ -34,4 +34,8 @@ public interface UserService {
     List<HashMap> selectVagueAccountUser(String user_account);
 
     List<HashMap> selectAccountUser(String user_account);
+
+    List<HashMap> selectOneInformation(int user_id);
+
+    boolean updateOnePassword(String user_password, int user_id);
 }

@@ -23,7 +23,7 @@ public interface BillService {
 
     List<HashMap> selectAllBdetail(int bill_id);
 
-    List<HashMap> sselectBillAllPeople(int bill_id);
+    List<HashMap> selectBillAllPeople(int bill_id);
 
     List<HashMap> selectOtherBills(int buuser_id, int buser_id);
 
@@ -33,6 +33,19 @@ public interface BillService {
 
     boolean insertBillPeople(int bill_id, int user_id, String buser_time);
 
+    List<HashMap> selectMaxBillId();
+
+    boolean insertMineBill(int bill_id, int user_id, String buser_time);
+
+    boolean deleteBill(int bill_id);
+
+    boolean updateBillPeople(int buser_id);
+
+    List<HashMap> billUserIfZero(int user_id);
+
     List<HashMap> sqlQuery(String sql);
 
+    boolean updateBillUserIfOne(int buser_id);
+
+    boolean updateBillUserIfTwo(int buser_id);
 }
