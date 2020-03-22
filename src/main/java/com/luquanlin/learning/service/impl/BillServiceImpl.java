@@ -146,4 +146,22 @@ public class BillServiceImpl implements BillService {
         }
         return false;
     }
+
+    @Override
+    public boolean insertUserBdetail(int bill_id, int user_id, int type_id, String bdetail_money, String bdetail_remarks, String bdetail_date) {
+        int result = billMapper.insertUserBdetail(bill_id, user_id, type_id, bdetail_money, bdetail_remarks, bdetail_date);
+        if (result > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteUserBdetail(int bdetail_id) {
+        int result = billMapper.deleteUserBdetail(bdetail_id);
+        if (result > 0) {
+            return true;
+        }
+        return false;
+    }
 }

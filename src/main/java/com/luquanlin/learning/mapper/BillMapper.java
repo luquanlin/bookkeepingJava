@@ -53,4 +53,7 @@ public interface BillMapper {
 
     int updateBillUserIfTwo(int buser_id);
 
+    int insertUserBdetail(int bill_id, int user_id, int type_id, String bdetail_money, String bdetail_remarks, String bdetail_date);
+
+    int deleteUserBdetail(int bdetail_id);
 }

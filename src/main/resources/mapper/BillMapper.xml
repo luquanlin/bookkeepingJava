@@ -75,6 +75,7 @@
                  inner join type t on t.type_id = bd.type_id
                  inner join user u on u.user_id = bd.user_id
         where bu.bill_id = #{bill_id}
+          and bd.bdetail_state = 1
     </select>
 
     <!--查询账单的人数-->
@@ -188,4 +189,15 @@
         where buser_id = #{buser_id}
     </update>
 
+    <!--插入账单数据-->
+    <insert id="insertUserBdetail">
+        insert into bdetail(bill_id, user_id, type_id, bdetail_money, bdetail_remarks, bdetail_date)
+        values (#{bill_id}, #{user_id}, #{type_id}, #{bdetail_money}, #{bdetail_remarks},#{bdetail_date})
+    </insert>
+    <!--删除账单数据-->
+    <update id="deleteUserBdetail">
+        UPDATE bdetail
+        set bdetail_state=0
+        where bdetail_id = #{bdetail_id}
+    </update>
 </mapper>

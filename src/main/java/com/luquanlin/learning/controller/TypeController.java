@@ -87,4 +87,14 @@ public class TypeController {
         return result;
     }
 
+    @RequestMapping("/selectTypeMark")
+    @ResponseBody
+    @ApiOperation(value = "查询收入或者支出名称", notes = "直接返回数据", httpMethod = "POST")
+    public Map selectTypeMark(String type_mark) {
+        Map result = new HashMap();
+        List<HashMap> typeAll = typeService.selectTypeMark(type_mark);
+        result.put("data", typeAll);
+        return result;
+    }
+
 }

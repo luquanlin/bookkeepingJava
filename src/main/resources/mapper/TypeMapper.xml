@@ -14,7 +14,8 @@
     <select id="selectVagueType" resultType="com.luquanlin.learning.entity.Type">
         select *
         from type
-        where concat(type_name, type_mark) LIKE CONCAT('%${type_name}%', '%${type_mark}%') and type_state = 1
+        where concat(type_name, type_mark) LIKE CONCAT('%${type_name}%', '%${type_mark}%')
+          and type_state = 1
     </select>
 
     <!--删除类别-->
@@ -33,7 +34,16 @@
     <!--编辑类别-->
     <update id="updateType">
         update type
-        set type_name = #{type_name},type_mark = #{type_mark}
+        set type_name = #{type_name},
+            type_mark = #{type_mark}
         where type_id = #{type_id}
     </update>
+
+    <!--查询所有支出或者支出的-->
+    <select id="selectTypeMark" resultType="HashMap">
+        select *
+        from type
+        where type_mark = #{type_mark}
+          AND type_state = 1
+    </select>
 </mapper>

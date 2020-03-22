@@ -2,6 +2,7 @@ package com.luquanlin.learning.service;
 
 import com.luquanlin.learning.entity.Type;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,4 +20,7 @@ public interface TypeService {
     boolean insertType(String type_name, String type_mark);
 
     boolean updateType(String type_name, String type_mark,int type_id);
+
+    List<HashMap> selectTypeMark(String type_mark);
+
 }

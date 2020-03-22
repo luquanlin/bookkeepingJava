@@ -3,6 +3,7 @@ package com.luquanlin.learning.mapper;
 import com.luquanlin.learning.entity.Type;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,5 +21,7 @@ public interface TypeMapper {
 
     int insertType(String type_name, String type_mark);
 
-    int updateType(String type_name, String type_mark,int type_id);
+    int updateType(String type_name, String type_mark, int type_id);
+
+    List<HashMap> selectTypeMark(String type_mark);
 }

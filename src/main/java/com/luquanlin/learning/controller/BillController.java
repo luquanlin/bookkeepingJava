@@ -241,4 +241,30 @@ public class BillController {
         return result;
     }
 
+    @RequestMapping("/insertUserBdetail")
+    @ResponseBody
+    @ApiOperation(value = "插入账单的详情", notes = "1成功，0失败", httpMethod = "POST")
+    public Map insertUserBdetail(int bill_id, int user_id, int type_id, String bdetail_money, String bdetail_remarks, String bdetail_date) {
+        Map result = new HashMap();
+        if (billService.insertUserBdetail(bill_id, user_id, type_id, bdetail_money, bdetail_remarks, bdetail_date)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
+
+
+    @RequestMapping("/deleteUserBdetail")
+    @ResponseBody
+    @ApiOperation(value = "删除账单的详情", notes = "1成功，0失败", httpMethod = "POST")
+    public Map deleteUserBdetail(int bdetail_id) {
+        Map result = new HashMap();
+        if (billService.deleteUserBdetail(bdetail_id)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
 }

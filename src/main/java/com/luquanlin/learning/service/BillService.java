@@ -48,4 +48,8 @@ public interface BillService {
     boolean updateBillUserIfOne(int buser_id);
 
     boolean updateBillUserIfTwo(int buser_id);
+
+    boolean insertUserBdetail(int bill_id, int user_id, int type_id, String bdetail_money, String bdetail_remarks, String bdetail_date);
+
+    boolean deleteUserBdetail(int bdetail_id);
 }

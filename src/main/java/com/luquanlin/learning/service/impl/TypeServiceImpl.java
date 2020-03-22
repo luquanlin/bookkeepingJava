@@ -6,6 +6,7 @@ import com.luquanlin.learning.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -54,5 +55,10 @@ public class TypeServiceImpl implements TypeService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<HashMap> selectTypeMark(String type_mark) {
+        return typeMapper.selectTypeMark(type_mark);
     }
 }
