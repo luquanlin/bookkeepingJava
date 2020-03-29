@@ -52,4 +52,22 @@ public interface BillService {
     boolean insertUserBdetail(int bill_id, int user_id, int type_id, String bdetail_money, String bdetail_remarks, String bdetail_date);
 
     boolean deleteUserBdetail(int bdetail_id);
+
+    boolean closeBill(int bill_id);
+
+    List<HashMap> tjAll(int user_id);
+
+    List<HashMap> tjMarkZero(int user_id);
+
+    List<HashMap> tjMarkOne(int user_id);
+
+    List<HashMap> tjAllHt();
+
+    List<HashMap> tjMarkZeroHt();
+
+    List<HashMap> tjMarkOneHt();
+
+    List<HashMap> tjMonthZeroHt();
+
+    List<HashMap> tjMonthOneHt();
 }

@@ -267,4 +267,99 @@ public class BillController {
         }
         return result;
     }
+
+    @RequestMapping("/closeBill")
+    @ResponseBody
+    @ApiOperation(value = "结算账单", notes = "1成功，0失败", httpMethod = "POST")
+    public Map closeBill(int bill_id) {
+        Map result = new HashMap();
+        if (billService.closeBill(bill_id)) {
+            result.put("data", 1);
+        } else {
+            result.put("data", 0);
+        }
+        return result;
+    }
+
+
+    @RequestMapping("/tjAll")
+    @ResponseBody
+    @ApiOperation(value = "统计全部", notes = "直接返回数据", httpMethod = "POST")
+    public Map tjAll(int user_id) {
+        Map result = new HashMap();
+        List<HashMap> billUser = billService.tjAll(user_id);
+        result.put("data", billUser);
+        return result;
+    }
+
+    @RequestMapping("/tjMarkZero")
+    @ResponseBody
+    @ApiOperation(value = "统计支出", notes = "直接返回数据", httpMethod = "POST")
+    public Map tjMarkZero(int user_id) {
+        Map result = new HashMap();
+        List<HashMap> billUser = billService.tjMarkZero(user_id);
+        result.put("data", billUser);
+        return result;
+    }
+
+    @RequestMapping("/tjMarkOne")
+    @ResponseBody
+    @ApiOperation(value = "统计收入", notes = "直接返回数据", httpMethod = "POST")
+    public Map tjMarkOne(int user_id) {
+        Map result = new HashMap();
+        List<HashMap> billUser = billService.tjMarkOne(user_id);
+        result.put("data", billUser);
+        return result;
+    }
+
+
+    @RequestMapping("/tjAllHt")
+    @ResponseBody
+    @ApiOperation(value = "统计后台全部", notes = "直接返回数据", httpMethod = "POST")
+    public Map tjAllHt() {
+        Map result = new HashMap();
+        List<HashMap> billUser = billService.tjAllHt();
+        result.put("data", billUser);
+        return result;
+    }
+
+    @RequestMapping("/tjMarkZeroHt")
+    @ResponseBody
+    @ApiOperation(value = "统计后台支出", notes = "直接返回数据", httpMethod = "POST")
+    public Map tjMarkZeroHt() {
+        Map result = new HashMap();
+        List<HashMap> billUser = billService.tjMarkZeroHt();
+        result.put("data", billUser);
+        return result;
+    }
+
+    @RequestMapping("/tjMarkOneHt")
+    @ResponseBody
+    @ApiOperation(value = "统计后台收入", notes = "直接返回数据", httpMethod = "POST")
+    public Map tjMarkOneHt() {
+        Map result = new HashMap();
+        List<HashMap> billUser = billService.tjMarkOneHt();
+        result.put("data", billUser);
+        return result;
+    }
+
+    @RequestMapping("/tjMonthZeroHt")
+    @ResponseBody
+    @ApiOperation(value = "统计后台y月支出", notes = "直接返回数据", httpMethod = "POST")
+    public Map tjMonthZeroHt() {
+        Map result = new HashMap();
+        List<HashMap> billUser = billService.tjMonthZeroHt();
+        result.put("data", billUser);
+        return result;
+    }
+
+    @RequestMapping("/tjMonthOneHt")
+    @ResponseBody
+    @ApiOperation(value = "统计后台月收入", notes = "直接返回数据", httpMethod = "POST")
+    public Map tjMonthOneHt() {
+        Map result = new HashMap();
+        List<HashMap> billUser = billService.tjMonthOneHt();
+        result.put("data", billUser);
+        return result;
+    }
 }

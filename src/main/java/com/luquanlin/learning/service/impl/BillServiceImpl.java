@@ -164,4 +164,53 @@ public class BillServiceImpl implements BillService {
         }
         return false;
     }
+
+    @Override
+    public boolean closeBill(int bill_id) {
+        int result = billMapper.closeBill(bill_id);
+        if (result > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<HashMap> tjAll(int user_id) {
+        return billMapper.tjAll(user_id);
+    }
+
+    @Override
+    public List<HashMap> tjMarkZero(int user_id) {
+        return billMapper.tjMarkZero(user_id);
+    }
+
+    @Override
+    public List<HashMap> tjMarkOne(int user_id) {
+        return billMapper.tjMarkOne(user_id);
+    }
+
+    @Override
+    public List<HashMap> tjAllHt() {
+        return billMapper.tjAllHt();
+    }
+
+    @Override
+    public List<HashMap> tjMarkZeroHt() {
+        return billMapper.tjMarkZeroHt();
+    }
+
+    @Override
+    public List<HashMap> tjMarkOneHt() {
+        return billMapper.tjMarkOneHt();
+    }
+
+    @Override
+    public List<HashMap> tjMonthZeroHt() {
+        return billMapper.tjMonthZeroHt();
+    }
+
+    @Override
+    public List<HashMap> tjMonthOneHt() {
+        return billMapper.tjMonthOneHt();
+    }
 }

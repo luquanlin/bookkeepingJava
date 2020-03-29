@@ -68,7 +68,9 @@
                t.type_mark,
                t.type_name,
                u.user_id as uuid,
-               u.user_name
+               u.user_name,
+               bd.bdetail_id
+
         from bill b
                  inner join buser bu on bu.bill_id = b.bill_id
                  inner join bdetail bd on bd.bill_id = bu.bill_id and bd.user_id = bu.user_id
@@ -192,7 +194,7 @@
     <!--插入账单数据-->
     <insert id="insertUserBdetail">
         insert into bdetail(bill_id, user_id, type_id, bdetail_money, bdetail_remarks, bdetail_date)
-        values (#{bill_id}, #{user_id}, #{type_id}, #{bdetail_money}, #{bdetail_remarks},#{bdetail_date})
+        values (#{bill_id}, #{user_id}, #{type_id}, #{bdetail_money}, #{bdetail_remarks}, #{bdetail_date})
     </insert>
     <!--删除账单数据-->
     <update id="deleteUserBdetail">
@@ -200,4 +202,131 @@
         set bdetail_state=0
         where bdetail_id = #{bdetail_id}
     </update>
+
+    <!--结算账单-->
+    <update id="closeBill">
+        UPDATE bill
+        SET bill_income=(select (case when sum(bd.bdetail_money) is null then 0 else sum(bd.bdetail_money) end) as sr
+                         FROM bdetail bd
+                                  inner JOIN type t on t.type_id = bd.type_id
+                         where bd.bill_id = #{bill_id}
+                           AND type_mark = 1),
+            bill_expend=(select (case when sum(bd.bdetail_money) is null then 0 else sum(bd.bdetail_money) end) as zc
+                         FROM bdetail bd
+                                  inner JOIN type t on t.type_id = bd.type_id
+                         where bd.bill_id = #{bill_id}
+                           AND type_mark = 0),
+            bill_total=(select ((case when sum(bd.bdetail_money) is null then 0 else sum(bd.bdetail_money) end) -
+                                (select (case
+                                             when sum(bd.bdetail_money) is null then 0
+                                             else sum(bd.bdetail_money) end) as sr
+                                 FROM bdetail bd
+                                          inner JOIN type t on t.type_id = bd.type_id
+                                 where bd.bill_id = #{bill_id}
+                                   AND type_mark = 0)) as zc
+                        FROM bdetail bd
+                                 inner JOIN type t on t.type_id = bd.type_id
+                        where bd.bill_id = #{bill_id}
+                          AND type_mark = 1),
+            bill_average=(select (((case when sum(bd.bdetail_money) is null then 0 else sum(bd.bdetail_money) end) -
+                                   (select (case
+                                                when sum(bd.bdetail_money) is null then 0
+                                                else sum(bd.bdetail_money) end) as sr
+                                    FROM bdetail bd
+                                             inner JOIN type t on t.type_id = bd.type_id
+                                    where bd.bill_id = #{bill_id}
+                                      AND type_mark = 0)) /
+                                  (select count(*) from buser b where b.bill_id = #{bill_id})) as zc
+                          FROM bdetail bd
+                                   inner JOIN type t on t.type_id = bd.type_id
+                          where bd.bill_id = #{bill_id}
+                            AND type_mark = 1),
+            bill_add=1
+        where bill_id = #{bill_id}
+    </update>
+
+    <!--统计全部-->
+    <select id="tjAll" resultType="HashMap">
+        select sum(bd.bdetail_money) as money, t.type_mark
+        from bdetail bd
+                 inner join type t on t.type_id = bd.type_id
+        where bd.user_id = #{user_id}
+          AND bd.bdetail_state = 1
+        group by t.type_mark
+    </select>
+
+    <!--统计支出-->
+    <select id="tjMarkZero" resultType="HashMap">
+        select sum(bd.bdetail_money) as money, t.type_name
+        from bdetail bd
+                 inner join type t on t.type_id = bd.type_id
+        where bd.user_id = #{user_id}
+          AND bd.bdetail_state = 1
+          AND t.type_mark = 0
+        group BY type_name
+    </select>
+
+    <!--统计收入-->
+    <select id="tjMarkOne" resultType="HashMap">
+        select sum(bd.bdetail_money) as money, t.type_name
+        from bdetail bd
+                 inner join type t on t.type_id = bd.type_id
+        where bd.user_id = #{user_id}
+          AND bd.bdetail_state = 1
+          AND t.type_mark = 1
+        group BY type_name
+    </select>
+
+    <!--后台统计全部-->
+    <select id="tjAllHt" resultType="HashMap">
+        select sum(bd.bdetail_money) as money, t.type_mark
+        from bdetail bd
+                 inner join type t on t.type_id = bd.type_id
+        where bd.bdetail_state = 1
+        group by t.type_mark
+    </select>
+
+    <!--后台统计收入-->
+    <select id="tjMarkOneHt" resultType="HashMap">
+        select sum(bd.bdetail_money) as money, t.type_name
+        from bdetail bd
+                 inner join type t on t.type_id = bd.type_id
+        where bd.bdetail_state = 1
+          AND t.type_mark = 1
+        group BY type_name
+    </select>
+
+    <!--后台统计支出-->
+    <select id="tjMarkZeroHt" resultType="HashMap">
+        select sum(bd.bdetail_money) as money, t.type_name
+        from bdetail bd
+                 inner join type t on t.type_id = bd.type_id
+        where bd.bdetail_state = 1
+          AND t.type_mark = 0
+        group BY type_name
+    </select>
+
+    <!--后台分组月统计支出-->
+    <select id="tjMonthZeroHt" resultType="HashMap">
+        select sum(bd.bdetail_money) as money, t.type_mark, bd.bdetail_date, DATE_FORMAT(bd.bdetail_date, '%m') as month
+        from bdetail bd
+                 inner join type t on t.type_id = bd.type_id
+        where bd.bdetail_state = 1
+          and t.type_mark = 0
+        GROUP BY t.type_mark,
+                 DATE_FORMAT(bd.bdetail_date, '%m')
+
+    </select>
+
+    <!--后台分组月统计收入-->
+    <select id="tjMonthOneHt" resultType="HashMap">
+        select sum(bd.bdetail_money) as money, t.type_mark, bd.bdetail_date, DATE_FORMAT(bd.bdetail_date, '%m') as month
+        from bdetail bd
+                 inner join type t on t.type_id = bd.type_id
+        where bd.bdetail_state = 1
+          and t.type_mark = 1
+        GROUP BY t.type_mark,
+                 DATE_FORMAT(bd.bdetail_date, '%m')
+
+    </select>
 </mapper>

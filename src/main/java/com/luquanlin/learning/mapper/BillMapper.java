@@ -56,4 +56,22 @@ public interface BillMapper {
     int insertUserBdetail(int bill_id, int user_id, int type_id, String bdetail_money, String bdetail_remarks, String bdetail_date);
 
     int deleteUserBdetail(int bdetail_id);
+
+    int closeBill(int bill_id);
+
+    List<HashMap> tjAll(int user_id);
+
+    List<HashMap> tjMarkZero(int user_id);
+
+    List<HashMap> tjMarkOne(int user_id);
+
+    List<HashMap> tjAllHt();
+
+    List<HashMap> tjMarkZeroHt();
+
+    List<HashMap> tjMarkOneHt();
+
+    List<HashMap> tjMonthZeroHt();
+
+    List<HashMap> tjMonthOneHt();
 }
